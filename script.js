@@ -1,30 +1,41 @@
-let grid=[
-    ["","",""],
-    ["","",""],
-    ["","",""]
-]; //x,y
+let grid=["","","","","","","","",""];
+//x,y
 let turn="X";
 let wins=[
-    [[0,0],[0,1],[0,2]],
-    [[1,0],[1,1],[1,2]],
-    [[2,0],[2,1],[2,2]],
-    [[0,0],[1,0],[2,0]],
-    [[0,1],[1,1],[2,1]],
-    [[0,2],[1,2],[2,2]],
-    [[0,0],[1,1],[2,2]],
-    [[2,0],[1,1],[0,2]]]
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+    [1,4,7],
+    [2,5,8],
+    [3,6,9],
+    [1,5,9],
+    [3,5,7]]
 
-function place(x,y){
-    grid[x][y]=turn;
+function place(x){
+    grid[x]=turn;
     turn=(turn=="X"?"O":"X");
+    print();
     console.log(detectWin());
 }
 function detectWin(){
     for (let i=0;i<8;i++){
         let c=wins[i];
-        if (grid[c[0][0]][c[0][1]]==grid[c[1][0]][c[1][1]] && grid[c[1][0]][c[1][1]]==grid[c[2][0]][c[2][1]] && (grid[c[2][0]][c[2][1]]=="X" || grid[c[2][0]][c[2][1]]=="O")){
+        if (grid[c[0]]==grid[c[1]] && grid[c[1]]==grid[c[2]] && (grid[c[2]]=="X" || grid[c[2]]=="O")){
             return true;
         }
     }
     return false;
 }
+
+function print(){
+    for (let i=0;i<9;i++){
+        if (grid[i]!=""){
+            document.getElementsByClassName("item")[i].innerHTML=grid[i];
+        }
+        else{
+            document.getElementsByClassName("item")[i].innerHTML=`<button onclick='place(${i})'></button>`;
+        }
+    }
+}
+
+print();
