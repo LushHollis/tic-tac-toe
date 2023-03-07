@@ -9,22 +9,39 @@ let wins=[
     [2,5,8],
     [3,6,9],
     [1,5,9],
-    [3,5,7]]
+    [3,5,7]];
+let message=document.getElementById('message');
+let gameOver=false;
 
 function place(x){
-    grid[x]=turn;
-    turn=(turn=="X"?"O":"X");
-    print();
-    console.log(detectWin());
+    if (gameOver==false){
+        grid[x]=turn;
+        turn=(turn=="X"?"O":"X");
+        message.innerHTML=`Turn: ${turn}`;
+        print();
+        detectWin();
+    }
 }
 function detectWin(){
     for (let i=0;i<8;i++){
         let c=wins[i];
-        if (grid[c[0]]==grid[c[1]] && grid[c[1]]==grid[c[2]] && (grid[c[2]]=="X" || grid[c[2]]=="O")){
-            return true;
+        if (grid[c[0]-1]==grid[c[1]-1] && grid[c[1]-1]==grid[c[2]-1] && grid[c[2]-1]=="X"){
+            message.innerHTML=`X won!`;
+            gameOver=true;
+            console.log('yes');
+        }
+        else if (grid[c[0]-1]==grid[c[1]-1] && grid[c[1]-1]==grid[c[2]-1] && (grid[c[2]-1]=="O")){
+            message.innerHTML="O won!";
+            gameOver=true;
+            console.log('yes');
         }
     }
-    return false;
+    if(grid.every(e=>e!="")){
+        message.innerHTML="Draw!";
+        gameOver=true;
+        console.log('draw :(');
+    }
+    console.log('not yet');
 }
 
 function print(){
